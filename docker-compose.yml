@@ -4,7 +4,7 @@ services:
 
   web:
     build: .
-    image: web
+    image: 458694677747.dkr.ecr.us-east-1.amazonaws.com/flask-celery-poc-web:${FLASK_CELERY_POC_IMAGE_TAG}
     container_name: web
     ports:
       - 5004:5000
@@ -21,6 +21,7 @@ services:
 
   worker:
     build: .
+    image: 458694677747.dkr.ecr.us-east-1.amazonaws.com/flask-celery-poc-worker:${FLASK_CELERY_POC_IMAGE_TAG}
     command: celery --app project.server.tasks.celery worker --loglevel=info
     volumes:
       - .:/usr/src/app
@@ -38,6 +39,7 @@ services:
 
   dashboard:
     build: .
+    image: 458694677747.dkr.ecr.us-east-1.amazonaws.com/flask-celery-poc-dashboard:${FLASK_CELERY_POC_IMAGE_TAG}
     command: celery --app project.server.tasks.celery flower --port=5555 --broker=redis://redis:6379/0
     ports:
       - 5556:5555
