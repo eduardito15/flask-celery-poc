@@ -38,5 +38,5 @@ jobs:
         ECR_REPOSITORY: flask-celerity-poc
         IMAGE_TAG: ${{ github.event.inputs.version }}
       run: |
-        docker compose build
-        docker compose push
+        docker compose -f docker-compose.yml build
+        docker compose -f docker-compose.yml push
