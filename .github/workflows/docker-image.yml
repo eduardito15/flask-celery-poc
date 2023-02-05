@@ -6,6 +6,9 @@ on:
       version:
         description: 'Version to build'
         required: true
+        
+env:
+  FLASK_CELERY_POC_IMAGE_TAG: ${{ github.event.inputs.version }}
 
 jobs:
 
@@ -15,8 +18,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        path: main
     
     - name: Configure AWS Credentials
       uses: aws-actions/configure-aws-credentials@v1
@@ -35,5 +36,5 @@ jobs:
         ECR_REPOSITORY: flask-celerity-poc
         IMAGE_TAG: ${{ github.event.inputs.version }}
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        docker compose -f docker-compose.yml build
+        docker compose -f docker-compose.yml push
